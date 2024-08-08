@@ -1,5 +1,6 @@
 name = "backend"
 compatibility_date = "2024-08-08"
+main = "src/index.ts"
 
 # [vars]
 # MY_VAR = "my-variable"
@@ -14,8 +15,8 @@ compatibility_date = "2024-08-08"
 
 # [[d1_databases]]
 # binding = "DB"
-# database_name = "my-database"
-# database_id = ""
+# database_name = "micro-todo-db"
+# database_id = "72232f39-1d64-496a-95f0-4b0bf0fbf09c"
 
 # [ai]
 # binding = "AI"
