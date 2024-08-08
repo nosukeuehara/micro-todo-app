@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as UserIndexImport } from './routes/user.index'
 import { Route as UserNosukeImport } from './routes/user.$nosuke'
+import { Route as UserTestNosukeImport } from './routes/user.test.nosuke'
 
 // Create/Update Routes
 
@@ -29,6 +30,11 @@ const UserIndexRoute = UserIndexImport.update({
 
 const UserNosukeRoute = UserNosukeImport.update({
   path: '/user/$nosuke',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UserTestNosukeRoute = UserTestNosukeImport.update({
+  path: '/user/test/nosuke',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -57,6 +63,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserIndexImport
       parentRoute: typeof rootRoute
     }
+    '/user/test/nosuke': {
+      id: '/user/test/nosuke'
+      path: '/user/test/nosuke'
+      fullPath: '/user/test/nosuke'
+      preLoaderRoute: typeof UserTestNosukeImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -66,6 +79,7 @@ export const routeTree = rootRoute.addChildren({
   IndexRoute,
   UserNosukeRoute,
   UserIndexRoute,
+  UserTestNosukeRoute,
 })
 
 /* prettier-ignore-end */
@@ -78,7 +92,8 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/",
         "/user/$nosuke",
-        "/user/"
+        "/user/",
+        "/user/test/nosuke"
       ]
     },
     "/": {
@@ -89,6 +104,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/user/": {
       "filePath": "user.index.tsx"
+    },
+    "/user/test/nosuke": {
+      "filePath": "user.test.nosuke.tsx"
     }
   }
 }
