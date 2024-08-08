@@ -11,12 +11,24 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as UserImport } from './routes/user'
+import { Route as IndexImport } from './routes/index'
+import { Route as UserIndexImport } from './routes/user.index'
+import { Route as UserNosukeImport } from './routes/user.$nosuke'
 
 // Create/Update Routes
 
-const UserRoute = UserImport.update({
-  path: '/user',
+const IndexRoute = IndexImport.update({
+  path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UserIndexRoute = UserIndexImport.update({
+  path: '/user/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UserNosukeRoute = UserNosukeImport.update({
+  path: '/user/$nosuke',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -24,11 +36,25 @@ const UserRoute = UserImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/user': {
-      id: '/user'
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/user/$nosuke': {
+      id: '/user/$nosuke'
+      path: '/user/$nosuke'
+      fullPath: '/user/$nosuke'
+      preLoaderRoute: typeof UserNosukeImport
+      parentRoute: typeof rootRoute
+    }
+    '/user/': {
+      id: '/user/'
       path: '/user'
       fullPath: '/user'
-      preLoaderRoute: typeof UserImport
+      preLoaderRoute: typeof UserIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -36,7 +62,11 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({ UserRoute })
+export const routeTree = rootRoute.addChildren({
+  IndexRoute,
+  UserNosukeRoute,
+  UserIndexRoute,
+})
 
 /* prettier-ignore-end */
 
@@ -46,11 +76,19 @@ export const routeTree = rootRoute.addChildren({ UserRoute })
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/user"
+        "/",
+        "/user/$nosuke",
+        "/user/"
       ]
     },
-    "/user": {
-      "filePath": "user.tsx"
+    "/": {
+      "filePath": "index.tsx"
+    },
+    "/user/$nosuke": {
+      "filePath": "user.$nosuke.tsx"
+    },
+    "/user/": {
+      "filePath": "user.index.tsx"
     }
   }
 }
